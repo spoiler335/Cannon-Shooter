@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Fire
   - Ground
+  - Cannon
   layers:
   - Default
   - TransparentFX
