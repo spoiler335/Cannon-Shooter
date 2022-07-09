@@ -14,8 +14,16 @@ public class CannonController : MonoBehaviour
     Quaternion toRotation;
     private Camera camera;
 
+    [SerializeField] float xLowerLimit = -30f;
+    [SerializeField] float xUpperLimit = 0;
+    [SerializeField] float yLowerLimit = -35f;
+    [SerializeField] float yUpperLimit = 35f;
+
+
     [SerializeField] Transform aimPoint;
     private LineRenderer lineRenderer;
+
+   
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +35,7 @@ public class CannonController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         RaycastHit hit;
         Ray ray = camera.ScreenPointToRay(Input.mousePosition);
         if(Physics.Raycast(ray,out hit))
@@ -36,11 +45,38 @@ public class CannonController : MonoBehaviour
                 lineRenderer.enabled = true;
                 xDeg -= Input.GetAxis("Mouse Y") * spped * friction;
                 yDeg += Input.GetAxis("Mouse X") * spped * friction;
+                if(xDeg>xUpperLimit)
+                {
+                    xDeg = xUpperLimit;
+                }
+
+                if(xDeg < xLowerLimit)
+                {
+                    xDeg = xLowerLimit;
+                }
+
+                if(yDeg > yUpperLimit)
+                {
+                    yDeg = yUpperLimit;
+                }
+
+                if(yDeg < yLowerLimit)
+                {
+                    yDeg = yLowerLimit;
+                }
+
                 fromRotation = transform.rotation;
                 toRotation = Quaternion.Euler(xDeg, yDeg, 0);
-                transform.rotation = Quaternion.Lerp(fromRotation, toRotation, Time.deltaTime * lerpSpeed);
+                aimPoint.transform.rotation = Quaternion.Lerp(fromRotation, toRotation, Time.deltaTime * lerpSpeed);
+                transform.rotation = aimPoint.transform.rotation;
                 lineRenderer.SetPosition(0, aimPoint.transform.position);
                 lineRenderer.SetPosition(1, hit.point);
+
+                if(transform.eulerAngles.z != 0)
+                {
+                    transform.rotation = Quaternion.Euler(xDeg,yDeg,0);
+                }
+
             }
 
             if(Input.GetMouseButtonUp(0))
