@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CannonController : MonoBehaviour
 {
+    RaycastHit hit;
 
     public int spped;
     public float friction;
@@ -23,7 +24,10 @@ public class CannonController : MonoBehaviour
     [SerializeField] Transform aimPoint;
     private LineRenderer lineRenderer;
 
-   
+    [SerializeField] GameObject cannonBall;
+    [SerializeField] GameObject explosion;
+    [SerializeField] float firePower;
+    Rigidbody ballRB;
 
     // Start is called before the first frame update
     void Start()
@@ -36,7 +40,7 @@ public class CannonController : MonoBehaviour
     void Update()
     {
         
-        RaycastHit hit;
+        
         Ray ray = camera.ScreenPointToRay(Input.mousePosition);
         if(Physics.Raycast(ray,out hit))
         {
@@ -83,6 +87,7 @@ public class CannonController : MonoBehaviour
             {
                 lineRenderer.enabled = false;
                 Debug.Log("Shoot");
+                fireCannon();
             }
         }
         
@@ -90,5 +95,14 @@ public class CannonController : MonoBehaviour
         {
             lineRenderer.enabled = false;
         }
+    }
+
+    public void fireCannon()
+    {
+        GameObject ballCopy = Instantiate(cannonBall, aimPoint.position, aimPoint.rotation) as GameObject;
+        ballRB = ballCopy.GetComponent<Rigidbody>();
+        ballRB.AddForce(transform.forward * firePower);
+        Instantiate(explosion, aimPoint.position, aimPoint.rotation);
+        ballCopy.transform.position = hit.transform.position;
     }
 }
