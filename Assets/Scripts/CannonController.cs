@@ -15,32 +15,40 @@ public class CannonController : MonoBehaviour
     Quaternion toRotation;
     private Camera camera;
 
+    [SerializeField] float minFirePower;
+    [SerializeField] float maxFirePower;
+
     [SerializeField] float xLowerLimit = -30f;
     [SerializeField] float xUpperLimit = 0;
     [SerializeField] float yLowerLimit = -35f;
     [SerializeField] float yUpperLimit = 35f;
 
 
-    [SerializeField] Transform aimPoint;
+    public Transform aimPoint;
     private LineRenderer lineRenderer;
 
     [SerializeField] GameObject cannonBall;
     [SerializeField] GameObject explosion;
-    [SerializeField] float firePower;
+    public float firePower;
     Rigidbody ballRB;
     [SerializeField] GameObject hitPoint;
+
+
+    private Vector3 mousePressDownPos;
+    private Vector3 mouseRealesePos;
+    private bool isShoot;
+
     // Start is called before the first frame update
     void Start()
     {
         camera = Camera.main;
-        lineRenderer = GetComponent<LineRenderer>(); 
+        lineRenderer = GetComponent<LineRenderer>();
+        isShoot = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        
         ray = camera.ScreenPointToRay(Input.mousePosition);
         if(Physics.Raycast(ray,out hit))
         {
@@ -79,11 +87,10 @@ public class CannonController : MonoBehaviour
             }
 
             
-            Debug.Log(hit.transform.position);
 
             if (Input.GetMouseButtonDown(0))
             {
-                lineRenderer.enabled = false;
+                isShoot = true;
                 Debug.Log("Shoot");
                 fireCannon();
             }
@@ -94,12 +101,46 @@ public class CannonController : MonoBehaviour
 
     public void fireCannon()
     {
-        Vector3 finalPos = camera.WorldToScreenPoint(Input.mousePosition);
-        finalPos.z = 0;
-        GameObject ballCopy = Instantiate(cannonBall, aimPoint.position, aimPoint.rotation) as GameObject;
-        ballRB = ballCopy.GetComponent<Rigidbody>();
-        ballRB.AddForce(transform.forward*firePower);
-        Instantiate(explosion, aimPoint.position, aimPoint.rotation);
-        //ballCopy.transform.position = hit.transform.position;
+        if (isShoot)
+        {
+            Vector3 finalPos = camera.WorldToScreenPoint(Input.mousePosition);
+            finalPos.z = 0;
+            GameObject ballCopy = Instantiate(cannonBall, aimPoint.position, aimPoint.rotation) as GameObject;
+            ballRB = ballCopy.GetComponent<Rigidbody>();
+            ballRB.AddForce(transform.forward * firePower);
+            //ballRB.velocity = aimPoint.transform.up * firePower;
+            Destroy(Instantiate(explosion, aimPoint.position, aimPoint.rotation), 2f);
+            //ballCopy.transform.position = hit.transform.position;
+        }
+    }
+
+    public void increasePower()
+    {
+        isShoot = false;
+        if (firePower < maxFirePower)
+        {
+            firePower += 50f;
+        }
+
+        if(firePower>maxFirePower)
+        {
+            firePower = maxFirePower;
+        }
+
+    }
+
+    public void decresePower()
+    {
+        isShoot = false;
+        if (firePower > minFirePower)
+        {
+            firePower += 50f;
+        }
+
+        if(firePower<minFirePower)
+        {
+            firePower = minFirePower;
+        }
+
     }
 }

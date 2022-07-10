@@ -40,11 +40,14 @@ public class CannonBall : MonoBehaviour
             rb.isKinematic = true;
             //rb.drag = 20;
             //rb.velocity = Vector3.zero;
+            Destroy(gameObject, 1f);
+
         }
 
         if (other.gameObject.CompareTag("Target"))
         {
             Destroy(other.gameObject, 0.1f);
+            GameManager.Instance.Score += 1;
         }
     }
 

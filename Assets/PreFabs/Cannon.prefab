@@ -172,6 +172,7 @@ GameObject:
   - component: {fileID: 2353789618279027036}
   - component: {fileID: 2353789618279027038}
   - component: {fileID: 2353789618279027037}
+  - component: {fileID: 40828135115139184}
   m_Layer: 0
   m_Name: Cannon_Main
   m_TagString: Cannon
@@ -375,6 +376,21 @@ MonoBehaviour:
   yUpperLimit: 35
   aimPoint: {fileID: 2353789616993618583}
   cannonBall: {fileID: 0}
+  explosion: {fileID: 0}
+  firePower: 0
+  hitPoint: {fileID: 0}
+--- !u!114 &40828135115139184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2353789618278924523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 413cf521efb989945879f3b63e524919, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2353789618278948789
 GameObject:
   m_ObjectHideFlags: 0
