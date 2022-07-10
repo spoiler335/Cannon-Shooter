@@ -5,7 +5,7 @@ using UnityEngine;
 public class CannonController : MonoBehaviour
 {
     RaycastHit hit;
-
+    Ray ray;
     public int spped;
     public float friction;
     public float lerpSpeed;
@@ -28,7 +28,7 @@ public class CannonController : MonoBehaviour
     [SerializeField] GameObject explosion;
     [SerializeField] float firePower;
     Rigidbody ballRB;
-
+    [SerializeField] GameObject hitPoint;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,49 +41,47 @@ public class CannonController : MonoBehaviour
     {
         
         
-        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+        ray = camera.ScreenPointToRay(Input.mousePosition);
         if(Physics.Raycast(ray,out hit))
         {
-            if (Input.GetMouseButton(0))
+            
+            xDeg -= Input.GetAxis("Mouse Y") * spped * friction;
+            yDeg += Input.GetAxis("Mouse X") * spped * friction;
+            if (xDeg > xUpperLimit)
             {
-                lineRenderer.enabled = true;
-                xDeg -= Input.GetAxis("Mouse Y") * spped * friction;
-                yDeg += Input.GetAxis("Mouse X") * spped * friction;
-                if(xDeg>xUpperLimit)
-                {
-                    xDeg = xUpperLimit;
-                }
-
-                if(xDeg < xLowerLimit)
-                {
-                    xDeg = xLowerLimit;
-                }
-
-                if(yDeg > yUpperLimit)
-                {
-                    yDeg = yUpperLimit;
-                }
-
-                if(yDeg < yLowerLimit)
-                {
-                    yDeg = yLowerLimit;
-                }
-
-                fromRotation = transform.rotation;
-                toRotation = Quaternion.Euler(xDeg, yDeg, 0);
-                aimPoint.transform.rotation = Quaternion.Lerp(fromRotation, toRotation, Time.deltaTime * lerpSpeed);
-                transform.rotation = aimPoint.transform.rotation;
-                lineRenderer.SetPosition(0, aimPoint.transform.position);
-                lineRenderer.SetPosition(1, hit.point);
-
-                if(transform.eulerAngles.z != 0)
-                {
-                    transform.rotation = Quaternion.Euler(xDeg,yDeg,0);
-                }
-
+                xDeg = xUpperLimit;
             }
 
-            if(Input.GetMouseButtonUp(0))
+            if (xDeg < xLowerLimit)
+            {
+                xDeg = xLowerLimit;
+            }
+
+            if (yDeg > yUpperLimit)
+            {
+                yDeg = yUpperLimit;
+            }
+
+            if (yDeg < yLowerLimit)
+            {
+                yDeg = yLowerLimit;
+            }
+
+            fromRotation = transform.rotation;
+            toRotation = Quaternion.Euler(xDeg, yDeg, 0);
+            aimPoint.transform.rotation = Quaternion.Lerp(fromRotation, toRotation, Time.deltaTime * lerpSpeed);
+            transform.rotation = aimPoint.transform.rotation;
+            
+
+            if (transform.eulerAngles.z != 0)
+            {
+                transform.rotation = Quaternion.Euler(xDeg, yDeg, 0);
+            }
+
+            
+            Debug.Log(hit.transform.position);
+
+            if (Input.GetMouseButtonDown(0))
             {
                 lineRenderer.enabled = false;
                 Debug.Log("Shoot");
@@ -91,18 +89,17 @@ public class CannonController : MonoBehaviour
             }
         }
         
-        else
-        {
-            lineRenderer.enabled = false;
-        }
+        
     }
 
     public void fireCannon()
     {
+        Vector3 finalPos = camera.WorldToScreenPoint(Input.mousePosition);
+        finalPos.z = 0;
         GameObject ballCopy = Instantiate(cannonBall, aimPoint.position, aimPoint.rotation) as GameObject;
         ballRB = ballCopy.GetComponent<Rigidbody>();
-        ballRB.AddForce(transform.forward * firePower);
+        ballRB.AddForce(transform.forward*firePower);
         Instantiate(explosion, aimPoint.position, aimPoint.rotation);
-        ballCopy.transform.position = hit.transform.position;
+        //ballCopy.transform.position = hit.transform.position;
     }
 }

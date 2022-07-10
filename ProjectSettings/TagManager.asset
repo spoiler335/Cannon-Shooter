@@ -5,9 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Fire
-  - Ground
   - Cannon
   - Ball
+  - Target
+  - Ground
   layers:
   - Default
   - TransparentFX
