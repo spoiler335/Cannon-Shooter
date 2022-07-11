@@ -38,12 +38,15 @@ public class CannonController : MonoBehaviour
     private Vector3 mouseRealesePos;
     private bool isShoot;
 
+    public PowerBar powerBar;
+
     // Start is called before the first frame update
     void Start()
     {
         camera = Camera.main;
         lineRenderer = GetComponent<LineRenderer>();
         isShoot = false;
+        firePower = minFirePower;
     }
 
     // Update is called once per frame
@@ -97,9 +100,19 @@ public class CannonController : MonoBehaviour
                     fireCannon();
                 }
 
+                if(Input.GetKeyDown(KeyCode.UpArrow))
+                {
+                    increasePower();
+                }
+                
+                if(Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                    decresePower();
+                }
             }
         }
-        
+
+        updatePowerBar();
     }
 
     public void fireCannon()
@@ -117,7 +130,7 @@ public class CannonController : MonoBehaviour
         }
     }
 
-    public void increasePower()
+    void increasePower()
     {
         isShoot = false;
         if (firePower < maxFirePower)
@@ -129,15 +142,15 @@ public class CannonController : MonoBehaviour
         {
             firePower = maxFirePower;
         }
-
+        updatePowerBar();
     }
 
-    public void decresePower()
+    void decresePower()
     {
         isShoot = false;
         if (firePower > minFirePower)
         {
-            firePower += 50f;
+            firePower -= 50f;
         }
 
         if(firePower<minFirePower)
@@ -145,5 +158,11 @@ public class CannonController : MonoBehaviour
             firePower = minFirePower;
         }
 
+        updatePowerBar();
+    }
+
+    void updatePowerBar()
+    {
+        powerBar.setPower(firePower);
     }
 }
