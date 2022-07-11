@@ -126,6 +126,7 @@ public class CannonController : MonoBehaviour
             ballRB.AddForce(transform.forward * firePower);
             //ballRB.velocity = aimPoint.transform.up * firePower;
             Destroy(Instantiate(explosion, aimPoint.position, aimPoint.rotation), 2f);
+            AudioManager.Instance.playSound("sound1");
             //ballCopy.transform.position = hit.transform.position;
         }
     }

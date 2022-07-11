@@ -48,6 +48,7 @@ public class CannonBall : MonoBehaviour
         {
             Destroy(other.gameObject, 0.1f);
             GameManager.Instance.Score += 1;
+            AudioManager.Instance.playSound("sound2");
 
             if (GameManager.Instance.Score > GameManager.highestScore)
             {
