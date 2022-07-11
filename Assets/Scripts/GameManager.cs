@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public int Score;
-    
+    public static int highestScore;
 
     private static GameManager instance;
     

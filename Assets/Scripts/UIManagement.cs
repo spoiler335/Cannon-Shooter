@@ -8,6 +8,7 @@ public class UIManagement : MonoBehaviour
     float currentTime = 0;
     [SerializeField] float stratingTime = 10f;
     [SerializeField] Text scoreText;
+    [SerializeField] Text highestScoreText;
     [SerializeField] Text countDownText;
     [SerializeField] GameObject gameOverPanel;
 
@@ -22,6 +23,7 @@ public class UIManagement : MonoBehaviour
     void Update()
     {
         scoreText.text = "Score : " + GameManager.Instance.Score;
+        highestScoreText.text = "Highest Score : " + GameManager.highestScore;
         currentTime -= Time.deltaTime;
         countDownText.text = "Remaining Time : " + currentTime.ToString("0");
 
@@ -32,5 +34,6 @@ public class UIManagement : MonoBehaviour
             gameOverPanel.SetActive(true);
         }
 
+        
     }
 }

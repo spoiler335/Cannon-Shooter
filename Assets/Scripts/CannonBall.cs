@@ -48,6 +48,11 @@ public class CannonBall : MonoBehaviour
         {
             Destroy(other.gameObject, 0.1f);
             GameManager.Instance.Score += 1;
+
+            if (GameManager.Instance.Score > GameManager.highestScore)
+            {
+                GameManager.highestScore = GameManager.Instance.Score;
+            }
         }
     }
 
