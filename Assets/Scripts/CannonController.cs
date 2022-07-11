@@ -52,7 +52,7 @@ public class CannonController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!PasueMenu.isPaused)
+        if (!PasueMenu.isPaused || !UIManagement.isGameOver)
         {
             ray = camera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
