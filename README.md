@@ -2,7 +2,7 @@
 
 This is an Cannon Shooter Game Built in Unity
 
-# How to pLay ;
+# How to Play ;
 
 Shoot The Targets to Gain Points in the Given time Limit.
 
