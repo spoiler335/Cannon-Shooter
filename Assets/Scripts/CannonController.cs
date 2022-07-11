@@ -163,6 +163,6 @@ public class CannonController : MonoBehaviour
 
     void updatePowerBar()
     {
-        powerBar.setPower(firePower);
+        powerBar.setPower(firePower/maxFirePower);
     }
 }

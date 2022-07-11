@@ -9,6 +9,6 @@ public class PowerBar : MonoBehaviour
 
     public void setPower(float Power)
     {
-        slider.value = Power/1000f;
+        slider.value = Power;
     }
 }
