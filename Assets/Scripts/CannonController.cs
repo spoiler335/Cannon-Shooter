@@ -49,53 +49,56 @@ public class CannonController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ray = camera.ScreenPointToRay(Input.mousePosition);
-        if(Physics.Raycast(ray,out hit))
+        if (!PasueMenu.isPaused)
         {
-            
-            xDeg -= Input.GetAxis("Mouse Y") * spped * friction;
-            yDeg += Input.GetAxis("Mouse X") * spped * friction;
-            if (xDeg > xUpperLimit)
+            ray = camera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit))
             {
-                xDeg = xUpperLimit;
-            }
 
-            if (xDeg < xLowerLimit)
-            {
-                xDeg = xLowerLimit;
-            }
+                xDeg -= Input.GetAxis("Mouse Y") * spped * friction;
+                yDeg += Input.GetAxis("Mouse X") * spped * friction;
+                if (xDeg > xUpperLimit)
+                {
+                    xDeg = xUpperLimit;
+                }
 
-            if (yDeg > yUpperLimit)
-            {
-                yDeg = yUpperLimit;
-            }
+                if (xDeg < xLowerLimit)
+                {
+                    xDeg = xLowerLimit;
+                }
 
-            if (yDeg < yLowerLimit)
-            {
-                yDeg = yLowerLimit;
-            }
+                if (yDeg > yUpperLimit)
+                {
+                    yDeg = yUpperLimit;
+                }
 
-            fromRotation = transform.rotation;
-            toRotation = Quaternion.Euler(xDeg, yDeg, 0);
-            aimPoint.transform.rotation = Quaternion.Lerp(fromRotation, toRotation, Time.deltaTime * lerpSpeed);
-            transform.rotation = aimPoint.transform.rotation;
-            
+                if (yDeg < yLowerLimit)
+                {
+                    yDeg = yLowerLimit;
+                }
 
-            if (transform.eulerAngles.z != 0)
-            {
-                transform.rotation = Quaternion.Euler(xDeg, yDeg, 0);
-            }
+                fromRotation = transform.rotation;
+                toRotation = Quaternion.Euler(xDeg, yDeg, 0);
+                aimPoint.transform.rotation = Quaternion.Lerp(fromRotation, toRotation, Time.deltaTime * lerpSpeed);
+                transform.rotation = aimPoint.transform.rotation;
 
-            
 
-            if (Input.GetMouseButtonDown(0))
-            {
-                isShoot = true;
-                Debug.Log("Shoot");
-                fireCannon();
+                if (transform.eulerAngles.z != 0)
+                {
+                    transform.rotation = Quaternion.Euler(xDeg, yDeg, 0);
+                }
+
+
+
+                if (Input.GetMouseButtonDown(0))
+                {
+                    isShoot = true;
+                    Debug.Log("Shoot");
+                    fireCannon();
+                }
+
             }
         }
-        
         
     }
 
